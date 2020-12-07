@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+    <properties resource="./generator-jdbc.properties"/>
+    <!--外部引入数据库配置，进而可以只生成指定库的所有表的映射-->
+    <classPathEntry location="${driverLocation}"/>
+
+    <context id="mysql" defaultModelType="flat" targetRuntime="MyBatis3">
+
+        <!-- 生成的Java文件的编码 -->
+        <property name="javaFileEncoding" value="UTF-8"/>
+        <!-- 格式化java代码 -->
+        <property name="javaFormatter" value="org.mybatis.generator.api.dom.DefaultJavaFormatter"/>
+        <!-- 格式化XML代码 -->
+        <property name="xmlFormatter" value="org.mybatis.generator.api.dom.DefaultXmlFormatter"/>
+
+        <!--MySQL风格的数据库分割符-->
+        <property name="autoDelimitKeywords" value="true"/>
+        <property name="beginningDelimiter" value=""/>
+        <property name="endingDelimiter" value=""/>
+        <!--自定义生成插件-->
+        <plugin type="org.caiwei.mybatis.generator.plugin.CustomPlugin"/>
+        <!--自定义注释生成器-->
+        <commentGenerator type="org.caiwei.mybatis.generator.plugin.CustomCommentGenerator"/>
+        <!-- 数据库连接 -->
+        <jdbcConnection
+                driverClass="${driverClassName}"
+                connectionURL="${url}"
+                userId="${username}"
+                password="${password}">
+            <!-- 该配置与外部引入数据库配置共同作用，使得可以只生成当前数据库的所有表，而不是当前连接的同级别所有数据库的所有表 -->
+            <property name="nullCatalogMeansCurrent" value="true" />
+        </jdbcConnection>
+        <!--java类型转换-->
+        <javaTypeResolver type="org.mybatis.generator.internal.types.JavaTypeResolverDefaultImpl">
+            <property name="forceBigDecimals" value="true"/>
+            <property name="useJSR310Types" value="true"/>
+        </javaTypeResolver>
+
+        <!-- java模型生成配置 -->
+        <javaModelGenerator targetPackage="org.caiwei.mybatis.generator.domain" targetProject="src/main/java">
+            <property name="enableSubPackages" value="false"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <!--xml生成配置-->
+        <sqlMapGenerator targetPackage="mapper" targetProject="src/main/resources">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+
+        <!--接口生成配置-->
+        <javaClientGenerator targetPackage="org.caiwei.mybatis.generator.dao" targetProject="src/main/java/"
+                             type="XMLMAPPER">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+
+        <!-- 生成数据库中所有表的实体，% 表示所有的表名-->
+        <table schema="SCOTT"
+               tableName="%"
+               enableInsert="true"
+               enableDeleteByPrimaryKey="true"
+               enableSelectByPrimaryKey="true"
+               enableUpdateByPrimaryKey="true"
+               delimitIdentifiers="true"
+               enableCountByExample="false"
+               enableSelectByExample="false"
+               enableDeleteByExample="false"
+               enableUpdateByExample="false"
+               selectByExampleQueryId="false">
+            <property name="mapUnderscoreToCamelCase" value="true" />
+        </table>
+    </context>
+</generatorConfiguration>
