@@ -1,9 +1,13 @@
 # mybatis-generator-plugin
+注意事项：
+    1.mybatis-generator-config.xml节点的顺序不能改变，否则会报错
 使用指南：
 
-​	1.将generator-jdbc.properties及mybatis-generator-config.xml复制至项目resources目录下，并修 	   改相关配置
+​1.将generator-jdbc.properties及mybatis-generator-config.xml复制至目标项目resources目录下，并修改相关配置:
+        1.1.修改generator-jdbc.properties中的驱动jar包路径、数据库路径及账号密码
+        1.2.修改javaModelGenerator、javaClientGenerator的包路径
 
-​	2.在pom文件，plugins节点下添加mybatis-generator-maven-plugin插件，并将本项目添加进依	     	   赖，如下：
+​2.在目标项目pom文件中，plugins节点下添加mybatis-generator-maven-plugin插件，并将本脚本项目添加进依赖，如下：
 
 ```
 <plugin>
@@ -21,10 +25,11 @@
         <dependency>
             <groupId>org.caiwei</groupId>
             <artifactId>mybatis-generator</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.0.0</version>
         </dependency>
     </dependencies>
 </plugin>
 ```
+3.在脚本项目中，执行mvn clean install将本脚本jar安装到maven仓库中
 
-3.执行mvn mybaits-generator:generate,完成代码生成
+4.在目标项目中，执行mvn mybaits-generator:generate,完成代码生成
