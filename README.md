@@ -1,6 +1,7 @@
 # mybatis-generator-plugin
 注意事项：
     1.mybatis-generator-config.xml节点的顺序不能改变，否则会报错
+    2.若未获取到表注释，则在数据库url连接中添加&useInformationSchema=true
 使用指南：
 
 ​1.将generator-jdbc.properties及mybatis-generator-config.xml复制至目标项目resources目录下，并修改相关配置:
