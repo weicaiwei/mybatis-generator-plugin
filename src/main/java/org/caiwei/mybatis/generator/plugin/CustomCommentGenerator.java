@@ -39,10 +39,7 @@ public class CustomCommentGenerator implements CommentGenerator {
     @Override
     public void addFieldComment(Field field, IntrospectedTable introspectedTable, IntrospectedColumn introspectedColumn) {
 
-        field.addJavaDocLine("/**");
-        field.addJavaDocLine(" * "+introspectedColumn.getRemarks());
-        field.addJavaDocLine(" */");
-
+       JavaElementCommentHandler.addFieldComment(field,introspectedColumn);
     }
 
     @Override
@@ -52,19 +49,11 @@ public class CustomCommentGenerator implements CommentGenerator {
 
     @Override
     public void addModelClassComment(TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
-
-        topLevelClass.addJavaDocLine("/**");
-        topLevelClass.addJavaDocLine(" * "+introspectedTable.getRemarks()+" Do");
-        topLevelClass.addJavaDocLine(" * @date "+LocalDate.now().toString());
-        topLevelClass.addJavaDocLine(" */");
+        JavaElementCommentHandler.addTopComment(topLevelClass, introspectedTable, " Do");
     }
 
     @Override
     public void addClassComment(InnerClass innerClass, IntrospectedTable introspectedTable) {
-        innerClass.addJavaDocLine("/**");
-        innerClass.addJavaDocLine(" * "+introspectedTable.getRemarks()+" Do");
-        innerClass.addJavaDocLine(" * @date "+LocalDate.now().toString());
-        innerClass.addJavaDocLine(" */");
     }
 
     @Override
@@ -147,4 +136,5 @@ public class CustomCommentGenerator implements CommentGenerator {
     public void addClassAnnotation(InnerClass innerClass, IntrospectedTable introspectedTable, Set<FullyQualifiedJavaType> imports) {
 
     }
+
 }

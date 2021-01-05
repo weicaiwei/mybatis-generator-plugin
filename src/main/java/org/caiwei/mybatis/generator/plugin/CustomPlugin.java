@@ -27,14 +27,11 @@ public class CustomPlugin extends PluginAdapter {
     @Override
     public boolean clientGenerated(Interface interfaze, TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
         //为mapper文件添加注释
-        interfaze.addJavaDocLine("/**");
-        interfaze.addJavaDocLine(" * " + introspectedTable.getRemarks() + " Mapper");
-        interfaze.addJavaDocLine(" * @date " + LocalDate.now().toString());
-        interfaze.addJavaDocLine(" */");
+        JavaElementCommentHandler.addTopComment(interfaze,introspectedTable," Mapper");
         //添加import包
         interfaze.addImportedType(new FullyQualifiedJavaType("org.apache.ibatis.annotations.Mapper"));
         interfaze.addImportedType(new FullyQualifiedJavaType("org.springframework.stereotype.Repository"));
-        //添加注解注解
+        //添加注解
         interfaze.addAnnotation("@Mapper");
         interfaze.addAnnotation("@Repository");
         return true;
@@ -42,12 +39,13 @@ public class CustomPlugin extends PluginAdapter {
 
     @Override
     public boolean modelBaseRecordClassGenerated(TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
-        //添加import包
+        //添加lombok @Data注解
         topLevelClass.addImportedType(new FullyQualifiedJavaType("lombok.Data"));
-        topLevelClass.addImportedType(new FullyQualifiedJavaType("lombok.Builder"));
-        //添加注解注解
         topLevelClass.addAnnotation("@Data");
-        topLevelClass.addAnnotation("@Builder");
+        //添加实现序列化
+        topLevelClass.addImportedType(new FullyQualifiedJavaType("java.io.Serializable"));
+        topLevelClass.addSuperInterface(new FullyQualifiedJavaType("java.io.Serializable"));
+
         return true;
     }
 
